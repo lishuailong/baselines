@@ -30,7 +30,7 @@ class ActWrapper(object):
     def load_act(path):
         with open(path, "rb") as f:
             model_data, act_params = cloudpickle.load(f)
-        act = deepq.build_act(**act_params)
+        act = deepq.build_act(**act_params)                                 #？？？？？？？？
         sess = tf.Session()
         sess.__enter__()
         with tempfile.TemporaryDirectory() as td:
@@ -49,27 +49,27 @@ class ActWrapper(object):
     def step(self, observation, **kwargs):
         # DQN doesn't use RNNs so we ignore states and masks
         kwargs.pop('S', None)
-        kwargs.pop('M', None)
+        kwargs.pop('M', None)                                                  #？？？？？？？
         return self._act([observation], **kwargs), None, None, None
 
     def save_act(self, path=None):
         """Save model to a pickle located at `path`"""
         if path is None:
-            path = os.path.join(logger.get_dir(), "model.pkl")
+            path = os.path.join(logger.get_dir(), "model.pkl")                   #参数和后缀？
 
         with tempfile.TemporaryDirectory() as td:
             save_variables(os.path.join(td, "model"))
             arc_name = os.path.join(td, "packed.zip")
             with zipfile.ZipFile(arc_name, 'w') as zipf:
-                for root, dirs, files in os.walk(td):
+                for root, dirs, files in os.walk(td):                              #文件、目录遍历器
                     for fname in files:
                         file_path = os.path.join(root, fname)
                         if file_path != arc_name:
-                            zipf.write(file_path, os.path.relpath(file_path, td))
+                            zipf.write(file_path, os.path.relpath(file_path, td))    #？？？？？？？？？？？
             with open(arc_name, "rb") as f:
                 model_data = f.read()
         with open(path, "wb") as f:
-            cloudpickle.dump((model_data, self._act_params), f)
+            cloudpickle.dump((model_data, self._act_params), f)                       #序列化和反序列化？？？？？
 
     def save(self, path):
         save_variables(path)
@@ -89,7 +89,7 @@ def load_act(path):
         function that takes a batch of observations
         and returns actions.
     """
-    return ActWrapper.load_act(path)
+    return ActWrapper.load_act(path)                                            #函数没内容？？？？？？？
 
 
 def learn(env,
