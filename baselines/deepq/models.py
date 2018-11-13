@@ -34,7 +34,7 @@ def _cnn_to_mlp(convs, hiddens, dueling, inpt, num_actions, scope, reuse=False, 
     with tf.variable_scope(scope, reuse=reuse):
         out = inpt
         with tf.variable_scope("convnet"):
-            for num_outputs, kernel_size, stride in convs:
+            for num_outputs, kernel_size, stride in convs:                                              #？？？？？？
                 out = layers.convolution2d(out,
                                            num_outputs=num_outputs,
                                            kernel_size=kernel_size,
@@ -98,7 +98,7 @@ def build_q_func(network, hiddens=[256], dueling=True, layer_norm=False, **netwo
 
     def q_func_builder(input_placeholder, num_actions, scope, reuse=False):
         with tf.variable_scope(scope, reuse=reuse):
-            latent = network(input_placeholder)
+            latent = network(input_placeholder)                                                        #？？？？？？？？？？？？
             if isinstance(latent, tuple):
                 if latent[1] is not None:
                     raise NotImplementedError("DQN is not compatible with recurrent policies yet")
