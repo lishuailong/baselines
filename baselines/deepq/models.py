@@ -8,8 +8,8 @@ def _mlp(hiddens, inpt, num_actions, scope, reuse=False, layer_norm=False):
         for hidden in hiddens:
             out = layers.fully_connected(out, num_outputs=hidden, activation_fn=None)
             if layer_norm:
-                out = layers.layer_norm(out, center=True, scale=True)
-            out = tf.nn.relu(out)
+                out = layers.layer_norm(out, center=True, scale=True)                          #标准化
+            out = tf.nn.relu(out)                                                             #线性修正函数
         q_out = layers.fully_connected(out, num_outputs=num_actions, activation_fn=None)
         return q_out
 
