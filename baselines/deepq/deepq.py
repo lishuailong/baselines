@@ -26,7 +26,7 @@ class ActWrapper(object):
         self._act_params = act_params
         self.initial_state = None
 
-    @staticmethod
+    @staticmethod                   #装饰符@类似于回调函数，把其它的函数（暂且称为目的参数）作为自己的入参，在目的函数执行前，执行一些自己的操作
     def load_act(path):
         with open(path, "rb") as f:
             model_data, act_params = cloudpickle.load(f)
@@ -41,7 +41,7 @@ class ActWrapper(object):
             zipfile.ZipFile(arc_path, 'r', zipfile.ZIP_DEFLATED).extractall(td)
             load_variables(os.path.join(td, "model"))
 
-        return ActWrapper(act, act_params)                                  #？？？？？？？格式
+        return ActWrapper(act, act_params)                                  #队类进行实例化
 
     def __call__(self, *args, **kwargs):
         return self._act(*args, **kwargs)
