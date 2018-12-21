@@ -30,7 +30,7 @@ class ActWrapper(object):
     def load_act(path):
         with open(path, "rb") as f:
             model_data, act_params = cloudpickle.load(f)
-        act = deepq.build_act(**act_params)                                 #？？？？？？？？
+        act = deepq.build_act(**act_params)                                 
         sess = tf.Session()
         sess.__enter__()
         with tempfile.TemporaryDirectory() as td:
@@ -41,7 +41,7 @@ class ActWrapper(object):
             zipfile.ZipFile(arc_path, 'r', zipfile.ZIP_DEFLATED).extractall(td)
             load_variables(os.path.join(td, "model"))
 
-        return ActWrapper(act, act_params)
+        return ActWrapper(act, act_params)                                  #？？？？？？？格式
 
     def __call__(self, *args, **kwargs):
         return self._act(*args, **kwargs)
@@ -49,7 +49,7 @@ class ActWrapper(object):
     def step(self, observation, **kwargs):
         # DQN doesn't use RNNs so we ignore states and masks
         kwargs.pop('S', None)
-        kwargs.pop('M', None)                                                  #？？？？？？？
+        kwargs.pop('M', None)                                                  #忽略状态和掩码
         return self._act([observation], **kwargs), None, None, None
 
     def save_act(self, path=None):
@@ -89,7 +89,7 @@ def load_act(path):
         function that takes a batch of observations
         and returns actions.
     """
-    return ActWrapper.load_act(path)                                            #函数没内容？？？？？？？
+    return ActWrapper.load_act(path)                                        
 
 
 def learn(env,
@@ -297,7 +297,7 @@ def learn(env,
                     (obses_t, actions, rewards, obses_tp1, dones, weights, batch_idxes) = experience
                 else:
                     obses_t, actions, rewards, obses_tp1, dones = replay_buffer.sample(batch_size)
-                    weights, batch_idxes = np.ones_like(rewards), None
+                    weights, batch_idxes = np.ones_like(rewards), None                                  #输入形状一样的数组
                 td_errors = train(obses_t, actions, rewards, obses_tp1, dones, weights)
                 if prioritized_replay:
                     new_priorities = np.abs(td_errors) + prioritized_replay_eps
@@ -307,7 +307,7 @@ def learn(env,
                 # Update target network periodically.
                 update_target()
 
-            mean_100ep_reward = round(np.mean(episode_rewards[-101:-1]), 1)
+            mean_100ep_reward = round(np.mean(episode_rewards[-101:-1]), 1)                           #压缩列，求各行平均值，然后四舍五入
             num_episodes = len(episode_rewards)
             if done and print_freq is not None and len(episode_rewards) % print_freq == 0:
                 logger.record_tabular("steps", t)
