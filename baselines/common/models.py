@@ -114,12 +114,12 @@ def lstm(nlstm=128, layer_norm=False):
         nbatch = X.shape[0]
         nsteps = nbatch // nenv
 
-        h = tf.layers.flatten(X)
+        h = tf.layers.flatten(X)                                                #把tensor展平
 
         M = tf.placeholder(tf.float32, [nbatch]) #mask (done t-1)
         S = tf.placeholder(tf.float32, [nenv, 2*nlstm]) #states
 
-        xs = batch_to_seq(h, nenv, nsteps)
+        xs = batch_to_seq(h, nenv, nsteps)                                      #？？？？？？？
         ms = batch_to_seq(M, nenv, nsteps)
 
         if layer_norm:
@@ -184,7 +184,7 @@ def conv_only(convs=[(32, 8, 4), (64, 4, 2), (64, 3, 1)], **conv_kwargs):
     '''
 
     def network_fn(X):
-        out = tf.cast(X, tf.float32) / 255.
+        out = tf.cast(X, tf.float32) / 255.                                 #将数据转化为后面的类型
         with tf.variable_scope("convnet"):
             for num_outputs, kernel_size, stride in convs:
                 out = layers.convolution2d(out,
@@ -216,7 +216,7 @@ def get_network_builder(name):
         return network_fn
 
     """
-    if callable(name):
+    if callable(name):                                              #检查一个对象是否是可调用的
         return name
     elif name in mapping:
         return mapping[name]
