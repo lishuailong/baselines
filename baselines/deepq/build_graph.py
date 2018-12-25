@@ -180,16 +180,16 @@ def build_act(make_obs_ph, q_func, num_actions, scope="deepq", reuse=None):
 
         eps = tf.get_variable("eps", (), initializer=tf.constant_initializer(0))
 
-        q_values = q_func(observations_ph.get(), num_actions, scope="q_func")
+        q_values = q_func(observations_ph.get(), num_actions, scope="q_func")                          #？？？？？？？？
         deterministic_actions = tf.argmax(q_values, axis=1)
 
-        batch_size = tf.shape(observations_ph.get())[0]
-        random_actions = tf.random_uniform(tf.stack([batch_size]), minval=0, maxval=num_actions, dtype=tf.int64)
+        batch_size = tf.shape(observations_ph.get())[0]                                                 #???????????
+        random_actions = tf.random_uniform(tf.stack([batch_size]), minval=0, maxval=num_actions, dtype=tf.int64)    #先拼接在产生均匀分布的值
         chose_random = tf.random_uniform(tf.stack([batch_size]), minval=0, maxval=1, dtype=tf.float32) < eps
         stochastic_actions = tf.where(chose_random, random_actions, deterministic_actions)
 
-        output_actions = tf.cond(stochastic_ph, lambda: stochastic_actions, lambda: deterministic_actions)
-        update_eps_expr = eps.assign(tf.cond(update_eps_ph >= 0, lambda: update_eps_ph, lambda: eps))
+        output_actions = tf.cond(stochastic_ph, lambda: stochastic_actions, lambda: deterministic_actions)     #选择语句
+        update_eps_expr = eps.assign(tf.cond(update_eps_ph >= 0, lambda: update_eps_ph, lambda: eps))          #更新值
         _act = U.function(inputs=[observations_ph, stochastic_ph, update_eps_ph],
                          outputs=output_actions,
                          givens={update_eps_ph: -1.0, stochastic_ph: True},
