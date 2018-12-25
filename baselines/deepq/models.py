@@ -92,9 +92,9 @@ def cnn_to_mlp(convs, hiddens, dueling=False, layer_norm=False):
 
 
 def build_q_func(network, hiddens=[256], dueling=True, layer_norm=False, **network_kwargs):
-    if isinstance(network, str):
+    if isinstance(network, str):                                                                    #判断一个对象是否属于已知的类型
         from baselines.common.models import get_network_builder
-        network = get_network_builder(network)(**network_kwargs)
+        network = get_network_builder(network)(**network_kwargs)                                    #构建一个网络结构
 
     def q_func_builder(input_placeholder, num_actions, scope, reuse=False):
         with tf.variable_scope(scope, reuse=reuse):
