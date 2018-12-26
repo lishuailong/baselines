@@ -188,9 +188,9 @@ def learn(env,
     # Create all the functions necessary to train the model
 
     sess = get_session()
-    set_global_seeds(seed)
+    set_global_seeds(s
 
-    q_func = build_q_func(network, **network_kwargs)
+    q_func = build_q_func(network, **network_kwargs)                                   
 
     # capture the shape outside the closure so that the env object is not serialized
     # by cloudpickle when serializing make_obs_ph
