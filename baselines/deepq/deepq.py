@@ -190,7 +190,7 @@ def learn(env,
     sess = get_session()
     set_global_seeds(seed)
 
-    q_func = build_q_func(network, **network_kwargs)
+    q_func = build_q_func(network, **network_kwargs)                                  #构建一个网络结构
 
     # capture the shape outside the closure so that the env object is not serialized
     # by cloudpickle when serializing make_obs_ph
