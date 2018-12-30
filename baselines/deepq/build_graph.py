@@ -410,10 +410,10 @@ def build_train(make_obs_ph, q_func, num_actions, optimizer, grad_norm_clipping=
         # compute the error (potentially clipped)
         td_error = q_t_selected - tf.stop_gradient(q_t_selected_target)                      #？？？？？？
         errors = U.huber_loss(td_error)
-        weighted_error = tf.reduce_mean(importance_weights_ph * errors)
+        weighted_error = tf.reduce_mean(importance_weights_ph * errors)                       #importance_weights_ph并无值???????????
 
         # compute optimization op (potentially with gradient clipping)
-        if grad_norm_clipping is not None:
+        if grad_norm_clipping is not None:                                                     #grad_norm_clipping并无定义
             gradients = optimizer.compute_gradients(weighted_error, var_list=q_func_vars)     #？？？？？？
             for i, (grad, var) in enumerate(gradients):
                 if grad is not None:
@@ -430,7 +430,7 @@ def build_train(make_obs_ph, q_func, num_actions, optimizer, grad_norm_clipping=
         update_target_expr = tf.group(*update_target_expr)
 
         # Create callable functions
-        train = U.function(
+        train = U.function(                                                                        #？？？？？？？？？
             inputs=[
                 obs_t_input,
                 act_t_ph,
