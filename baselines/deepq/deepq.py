@@ -254,7 +254,7 @@ def learn(env,
             model_saved = True
         elif load_path is not None:
             load_variables(load_path)
-            logger.log('Loaded model from {}'.format(load_path))
+            logger.log('Loaded model from {}'.format(load_path))                                  #load_path是None？？？？？？？
 
 
         for t in range(total_timesteps):
@@ -276,7 +276,7 @@ def learn(env,
                 kwargs['reset'] = reset
                 kwargs['update_param_noise_threshold'] = update_param_noise_threshold
                 kwargs['update_param_noise_scale'] = True
-            action = act(np.array(obs)[None], update_eps=update_eps, **kwargs)[0]
+            action = act(np.array(obs)[None], update_eps=update_eps, **kwargs)[0]                    #？？？？？？？
             env_action = action
             reset = False
             new_obs, rew, done, _ = env.step(env_action)
