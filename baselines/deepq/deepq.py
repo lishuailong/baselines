@@ -242,7 +242,7 @@ def learn(env,
     obs = env.reset()
     reset = True
 
-    with tempfile.TemporaryDirectory() as td:
+    with tempfile.TemporaryDirectory() as td:                                                 #？？？？？？
         td = checkpoint_path or td
 
         model_file = os.path.join(td, "model")
@@ -298,7 +298,7 @@ def learn(env,
                 else:
                     obses_t, actions, rewards, obses_tp1, dones = replay_buffer.sample(batch_size)
                     weights, batch_idxes = np.ones_like(rewards), None                                  #输入形状一样的数组
-                td_errors = train(obses_t, actions, rewards, obses_tp1, dones, weights)
+                td_errors = train(obses_t, actions, rewards, obses_tp1, dones, weights)                 #函数？？？？
                 if prioritized_replay:
                     new_priorities = np.abs(td_errors) + prioritized_replay_eps
                     replay_buffer.update_priorities(batch_idxes, new_priorities)
